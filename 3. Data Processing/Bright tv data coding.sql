@@ -1,13 +1,8 @@
 -- Databricks notebook source
-------Running the full tables
+------Running the Users table
 
 select *
 from bright_tv_dataset.bright_tv.user_profiles_dataset;
-
------
-
-select *
-from bright_tv_dataset.bright_tv.viewership_dataset;
 
 ---both tables contain information ready for cleaning and assesing.
 
@@ -148,6 +143,59 @@ select userID,
     when age >65 then 'Pensioner'
     end as age_groups
 from bright_tv_dataset.bright_tv.user_profiles_dataset;
+
+---the age groups have been successfully grouped into various descriptions.
+
+----------------------------------------------------------------------------
+-----Checking Emails
+----------------------------------------------------------------------------
+
+select email,
+  case 
+    when(email IS NOT NULL) OR (email NOT IN ('None')) then 1
+    else 0
+    end as email_flag
+From bright_tv_dataset.bright_tv.user_profiles_dataset;
+
+---there's 1 email flag
+
+----------------------------------------------------------------------------
+-----Checking Social Media Handles
+----------------------------------------------------------------------------
+
+SELECT
+    CASE
+        WHEN `Social Media Handle` IS NULL
+             OR TRIM(`Social Media Handle`) = ''
+             OR `Social Media Handle` = 'None'
+        THEN 0
+        ELSE 1
+    END AS SM_Flag
+FROM bright_tv_dataset.bright_tv.user_profiles_dataset;
+
+-----
+
+SELECT COUNT(*) AS users_with_social_media
+FROM bright_tv_dataset.bright_tv.user_profiles_dataset
+WHERE `Social Media Handle` IS NOT NULL
+  AND TRIM(`Social Media Handle`) <> ''
+  AND `Social Media Handle` <> 'None';
+
+--- A total of 4455 users have a SMH
+
+-----------------------------------------------------------------------
+-----Cleaning The Viewership Table
+-----------------------------------------------------------------------
+
+select *
+from bright_tv_dataset.bright_tv.viewership_dataset;
+
+
+----------------------------------------------------------------------
+-----Day Classification
+----------------------------------------------------------------------
+
+
 
 
 
