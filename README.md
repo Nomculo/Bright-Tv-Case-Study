@@ -8,3 +8,14 @@ This case study aims to identify BrightTV's subscriber and viewership data to ve
 3. What factors influence consumption?
 4. What type of content should Bright Tv be recommending?
 5. What ways can Bright Tv use to attract more subscribers?
+
+*TOOLS USED*
+1. Databricks
+2. SQL
+3. Chatgpt
+4. Canva
+5. Miro
+
+*PROCESS*
+1. Viewed, prepared and cleaned the data on Databricks.
+2. 
