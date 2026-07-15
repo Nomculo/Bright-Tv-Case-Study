@@ -17,5 +17,7 @@ This case study aims to identify BrightTV's subscriber and viewership data to ve
 5. Miro
 
 *PROCESS*
-1. Viewed, prepared and cleaned the data on Databricks.
-2. 
+
+1. Used Miro to map out the whole process of analyzing the data given. The mapping process includes asking data driven questions to come with solutions that best help Bright TV.
+2. Viewed, prepared and cleaned the data on Databricks.
+3. Canva 
