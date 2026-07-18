@@ -176,12 +176,14 @@ WHERE `Social Media Handle` IS NOT NULL
 --- A total of 4455 users have a SMH
 
 -----------------------------------------------------------------------
-=======================================================================
+-----------------------------------------------------------------------
 -----Cleaning The Viewership Table
-=======================================================================
+-----------------------------------------------------------------------
 -----------------------------------------------------------------------
 select *
 from bright_tv_dataset.bright_tv.viewership_dataset;
+
+-----
 
 
 ----------------------------------------------------------------------
@@ -235,9 +237,6 @@ WHERE RecordDate2 IS NULL;
 ---there are 0 NULLS in dates
 
 -----
-
-
------
 SELECT
     UserID0,
     DATEADD(HOUR, 2, RecordDate2) AS SA_Time,
@@ -246,7 +245,58 @@ SELECT
     DAYNAME(DATEADD(HOUR, 2, RecordDate2)) AS Day_Name,
     HOUR(DATEADD(HOUR, 2, RecordDate2)) AS Watch_Hour
 FROM bright_tv_dataset.bright_tv.viewership_dataset;
----this query combines the above queries into local time, day, month and year
+---the query shows day, time and date in local time
 
+-----
+
+SELECT
+    DAYNAME(RecordDate2) AS day_name,
+    CASE
+        WHEN DAYNAME(RecordDate2) IN ('Mon', 'Tue', 'Wed', 'Thu', 'Fri')
+            THEN 'Weekday'
+        ELSE 'Weekend'
+    END AS day_classification
+FROM bright_tv_dataset.bright_tv.viewership_dataset;
+
+
+-----
+select Date_Format(RecordDate2, 'yyyy-MM-dd') as date,
+   CASE
+    WHEN MONTH(RecordDate2) IN (12,1,2) THEN 'Summer'
+    WHEN MONTH(RecordDate2) IN (3,4,5) THEN 'Autumn'
+    WHEN MONTH(RecordDate2) IN (6,7,8) THEN 'Winter'
+    WHEN MONTH(RecordDate2) IN (9,10,11) THEN 'Spring'
+  END AS season
+  from bright_tv_dataset.bright_tv.viewership_dataset;
+----------------------------------------------------------------------
+----- CHECKING FOR DUPLICATES
+----------------------------------------------------------------------
+SELECT
+    COUNT(*) AS duplicate_cnt,
+    UserID0,
+    TO_DATE(RecordDate2) AS watch_date,
+    date_format(RecordDate2, 'HH:mm:ss') AS watch_time,
+    date_format(`Duration 2`, 'HH:mm:ss') AS duration,
+    Channel2
+FROM bright_tv_dataset.bright_tv.viewership_dataset
+GROUP BY
+    UserID0,
+    TO_DATE(RecordDate2),
+    date_format(RecordDate2, 'HH:mm:ss'),
+    date_format(`Duration 2`, 'HH:mm:ss'),
+    Channel2
+HAVING COUNT(*) > 1
+ORDER BY duplicate_cnt DESC;
+---There are 5 rows with duplicate accounts
+
+
+
+
+
+
+
+
+
+-- COMMAND ----------
 
 
